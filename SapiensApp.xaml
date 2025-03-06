@@ -1,0 +1,74 @@
+﻿<Window x:Class="ElectricalProspectingProfiling.Model.SapiensApp"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ElectricalProspectingProfiling.Model"
+        mc:Ignorable="d"
+        Title="SapiensApp" Height="700" Width="800">
+    <DockPanel>
+
+        <!-- Панель меню -->
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Файл">
+                <MenuItem Header="Выход"/>
+            </MenuItem>
+            <MenuItem Header="Справка">
+                <MenuItem Header="О программе"/>
+            </MenuItem>
+        </Menu>
+
+        <!-- Основное содержимое -->
+        <TabControl DockPanel.Dock="Top">
+
+            <TabItem Header="Геодезисты">
+                <StackPanel>
+                    <Button Content="Добавить геодезиста" Width="200"/>
+                    <DataGrid Name="dgSurveyors" AutoGenerateColumns="True" Height="400"/>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Пикеты">
+                <StackPanel>
+                    <DataGrid Name="dgPickets" AutoGenerateColumns="True" Height="400"/>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Профили">
+                <StackPanel>
+                    <DataGrid Name="dgProfiles" AutoGenerateColumns="True" Height="400"/>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Площади">
+                <StackPanel>
+                    <Button Content="Добавить площадь" Width="200" />
+                    <DataGrid Name="dgAreas" AutoGenerateColumns="True" Height="400"/>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Заказчики">
+                <StackPanel>
+                    <Button Content="Добавить заказчика" Width="200" />
+                    <DataGrid Name="dgCustomers" AutoGenerateColumns="True" Height="400"/>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Договоры">
+                <StackPanel>
+                    <Button Content="Оформить договор" Width="200" />
+                    <DataGrid Name="dgContracts" AutoGenerateColumns="True" Height="400"/>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Геологические данные">
+                <StackPanel>
+                    <Button Content="Добавить данные" Width="200" />
+                    <DataGrid Name="dgGeologicalData" AutoGenerateColumns="True" Height="300"/>
+                    <Image Name="imgGraph" Height="300" Width="500" Stretch="Uniform"/>
+                </StackPanel>
+            </TabItem>
+
+        </TabControl>
+    </DockPanel>
+</Window>
