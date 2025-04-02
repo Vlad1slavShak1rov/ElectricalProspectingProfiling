@@ -22,7 +22,8 @@ namespace ElectricalProspectingProfiling.Model
 
         [Required]
         public string МетодПрофилирования { get; set; }
-
+        [Required]
+        public byte? Фото_Профиля { get; set; }
         public virtual Square Square { get; set; }
         public virtual CoordinatsProfile CoordinatsProfile { get; set; } // Исправил имя
         public virtual List<Picket> Pickets { get; set; }

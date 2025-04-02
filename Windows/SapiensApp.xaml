@@ -42,7 +42,7 @@
 
             <TabItem Header="Площади">
                 <StackPanel>
-                    <Button Content="Добавить площадь" Width="200" />
+                    <Button Name="addSquareButton" Content="Добавить площадь" Width="200" Click="addSquareButton_Click" />
                     <DataGrid Name="dgAreas" AutoGenerateColumns="True" Height="400"/>
                 </StackPanel>
             </TabItem>

@@ -56,5 +56,15 @@ namespace ElectricalProspectingProfiling.Model
                 await LoadGeodesist(context);
             }
         }
+
+        private void addSquareButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddSquareWindow addSquareWindow = new();
+            var result = addSquareWindow.ShowDialog();
+            if(result == true)
+            {
+
+            }
+        }
     }
 }

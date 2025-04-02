@@ -21,7 +21,8 @@ namespace ElectricalProspectingProfiling.Model
 
         [Required]
         public decimal Высота { get; set; }
-
+        [Required]
+        public byte? ФотоПлощади { get; set; }
         public virtual List<CoordinatsSquare> CoordinatsSquares { get; set; }
     }
 }

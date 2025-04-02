@@ -1,0 +1,82 @@
+﻿<Window x:Class="ElectricalProspectingProfiling.Windows.AddSquareWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ElectricalProspectingProfiling.Windows"
+        mc:Ignorable="d"
+        Title="AddSquareWindow" Height="500" Width="400" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <ScrollViewer Height="400" VerticalAlignment="Top">
+            <StackPanel>
+                <!-- Координаты для площади -->
+                <Label Content="Координаты для площади" FontSize="16" FontWeight="DemiBold" HorizontalAlignment="Center"/>
+                <Border BorderBrush="Black" BorderThickness="0.5" Margin="10">
+                    <StackPanel Orientation="Horizontal">
+                        <!-- Левый столбец координат -->
+                        <StackPanel>
+                            <Label Content="X Координата"/>
+                            <TextBox x:Name="xCoordinateSquare" Width="40"/>
+                            <Label Content="Y Координата"/>
+                            <TextBox x:Name="yCoordinateSquare" Width="40"/>
+                            <Button Name="addPictureSquare" Content="Добавить рисунок" Margin="0 20 0 0"/>
+                        </StackPanel>
+
+                        <!-- Правый столбец с кнопками и списком -->
+                        <StackPanel>
+                            <ListBox Name="squareCoordinateListBox" Width="150" Height="100" Margin="25"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button x:Name="addSquareCoordinateButton" Content="Добавить" Margin="0 0 30 0" Click="addSquareCoordinateButton_Click"/>
+                                <Button x:Name="removeSquareCoordinateButton" Content="Удалить" Click="removeSquareCoordinateButton_Click"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Координаты для Профиля -->
+                <Label Content="Координаты для Профиля" FontSize="16" FontWeight="DemiBold" HorizontalAlignment="Center"/>
+                <Border BorderBrush="Black" BorderThickness="0.5" Margin="10">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel>
+                            <Label Content="X Координата"/>
+                            <TextBox x:Name="xCoordinateProfile" Width="40"/>
+                            <Label Content="Y Координата"/>
+                            <TextBox x:Name="yCoordinateProfile" Width="40"/>
+                            <Button x:Name="addPictureProfile" Content="Добавить рисунок" Margin="0 20 0 0"/>
+                        </StackPanel>
+
+                        <StackPanel>
+                            <ListBox Name="ProfileCoordinateListBox" Width="150" Height="100" Margin="25"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button x:Name="addProfileCoordinateButton" Content="Добавить" Margin="0 0 30 0" Click="addProfileCoordinateButton_Click"/>
+                                <Button x:Name="removeProfileCoordinateButton" Content="Удалить" Click="removeProfileCoordinateButton_Click"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Координаты для пикетов -->
+                <Label Content="Координаты для пикетов" FontSize="16" FontWeight="DemiBold" HorizontalAlignment="Center"/>
+                <Border BorderBrush="Black" BorderThickness="0.5" Margin="10">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel>
+                            <Label Content="X Координата"/>
+                            <TextBox x:Name="xCoordinatepicket" Width="40"/>
+                            <Label Content="Y Координата"/>
+                            <TextBox x:Name="yCoordinatepicket" Width="40"/>
+                            <Button x:Name="addPicturePicket" Content="Добавить рисунок" Margin="0 20 0 0"/>
+                        </StackPanel>
+
+                        <StackPanel>
+                            <ListBox Name="picketCoordinateListBox" Width="150" Height="100" Margin="25"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button x:Name="addpicketCoordinateButton" Content="Добавить" Margin="0 0 30 0" Click="addpicketCoordinateButton_Click"/>
+                                <Button x:Name="removepicketCoordinateButton" Content="Удалить" Click="removepicketCoordinateButton_Click"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>
