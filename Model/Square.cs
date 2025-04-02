@@ -9,17 +9,19 @@ using System.Windows.Markup;
 
 namespace ElectricalProspectingProfiling.Model
 {
-        public class Square
-        {
-            [Key]
-            public int ID { get; set; }
-            [ForeignKey("CoordinatsSquare")]
-            public int КоординатыID { get; set; }
-            [Required]
-            public string Название { get; set; }
-            [Required]
-            public decimal Высота { get; set; }
+    public class Square
+    {
+        [Key]
+        public int ID { get; set; }
 
-            public virtual List<CoordinatsSquare> CoordinatsSquares { get; set; }
-        }
+        public int КоординатыID { get; set; } // Убрал ForeignKey, потому что связь с List
+
+        [Required]
+        public string Название { get; set; }
+
+        [Required]
+        public decimal Высота { get; set; }
+
+        public virtual List<CoordinatsSquare> CoordinatsSquares { get; set; }
+    }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ElectricalProspectingProfiling.Model"
         mc:Ignorable="d"
-        Title="SapiensApp" Height="700" Width="800">
+        Title="SapiensApp" Height="700" Width="800" WindowStartupLocation="CenterScreen">
     <DockPanel>
 
         <!-- Панель меню -->
@@ -23,7 +23,7 @@
 
             <TabItem Header="Геодезисты">
                 <StackPanel>
-                    <Button Content="Добавить геодезиста" Width="200"/>
+                    <Button Name="addGeodesistButton" Content="Добавить геодезиста" Width="200" Click="addGeodesistButton_Click"/>
                     <DataGrid Name="dgSurveyors" AutoGenerateColumns="True" Height="400"/>
                 </StackPanel>
             </TabItem>

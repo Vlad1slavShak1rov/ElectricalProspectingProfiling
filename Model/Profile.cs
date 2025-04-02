@@ -17,14 +17,14 @@ namespace ElectricalProspectingProfiling.Model
         [ForeignKey("Square")]
         public int ПлощадьID { get; set; }
 
-        [ForeignKey("Coordinats")]
-        public int КоординатыI { get; set; }
+        [ForeignKey("CoordinatsProfile")]
+        public int КоординатыID { get; set; } // Исправил название
 
         [Required]
         public string МетодПрофилирования { get; set; }
 
         public virtual Square Square { get; set; }
-        public virtual CoordinatsProfile Coordinats { get; set; }
+        public virtual CoordinatsProfile CoordinatsProfile { get; set; } // Исправил имя
         public virtual List<Picket> Pickets { get; set; }
     }
 
