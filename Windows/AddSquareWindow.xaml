@@ -9,6 +9,22 @@
     <Grid>
         <ScrollViewer Height="400" VerticalAlignment="Top">
             <StackPanel>
+                <StackPanel HorizontalAlignment="Left" Margin="0 5 0 0 ">
+                    <Label Content="Название площади"/>
+                    <TextBox Name="nameSquareBox" Width="150"/>
+                    <Label Content="Высота"/>
+                    <TextBox Name="heightBox" Width="150"/>
+                    <Label Content="Метод исследования"/>
+                    <ComboBox Name="profileComboBox" SelectedIndex="0">
+                        <ComboBoxItem Content="Потенциометрическое"/>
+                        <ComboBoxItem Content="Поляризационное"/>
+                        <ComboBoxItem Content="Резистивное"/>
+                        <ComboBoxItem Content="Тепловое"/>
+                        <ComboBoxItem Content="Комбинированные"/>
+                    </ComboBox>
+
+                </StackPanel>
+
                 <!-- Координаты для площади -->
                 <Label Content="Координаты для площади" FontSize="16" FontWeight="DemiBold" HorizontalAlignment="Center"/>
                 <Border BorderBrush="Black" BorderThickness="0.5" Margin="10">
@@ -19,7 +35,6 @@
                             <TextBox x:Name="xCoordinateSquare" Width="40"/>
                             <Label Content="Y Координата"/>
                             <TextBox x:Name="yCoordinateSquare" Width="40"/>
-                            <Button Name="addPictureSquare" Content="Добавить рисунок" Margin="0 20 0 0"/>
                         </StackPanel>
 
                         <!-- Правый столбец с кнопками и списком -->
@@ -42,7 +57,7 @@
                             <TextBox x:Name="xCoordinateProfile" Width="40"/>
                             <Label Content="Y Координата"/>
                             <TextBox x:Name="yCoordinateProfile" Width="40"/>
-                            <Button x:Name="addPictureProfile" Content="Добавить рисунок" Margin="0 20 0 0"/>
+                           
                         </StackPanel>
 
                         <StackPanel>
@@ -64,7 +79,6 @@
                             <TextBox x:Name="xCoordinatepicket" Width="40"/>
                             <Label Content="Y Координата"/>
                             <TextBox x:Name="yCoordinatepicket" Width="40"/>
-                            <Button x:Name="addPicturePicket" Content="Добавить рисунок" Margin="0 20 0 0"/>
                         </StackPanel>
 
                         <StackPanel>
@@ -78,5 +92,7 @@
                 </Border>
             </StackPanel>
         </ScrollViewer>
+
+        <Button x:Name="saveButton" Content="Сохранить площадь" VerticalAlignment="Bottom" Margin="0 0 0 20" Click="saveButton_Click"/>
     </Grid>
 </Window>

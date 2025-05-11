@@ -16,6 +16,6 @@ namespace ElectricalProspectingProfiling.Model
         [Required]
         public decimal YКоордината { get; set; }
 
-        public virtual Square Square { get; set; }
+        public virtual Profile Profile { get; set; }
     }
 }

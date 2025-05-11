@@ -1,5 +1,8 @@
 ﻿using ElectricalProspectingProfiling.Database.context;
 using ElectricalProspectingProfiling.Model;
+using ElectricalProspectingProfiling.Windows;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +12,7 @@ using System.Windows;
 
 namespace ElectricalProspectingProfiling.Database.DAL
 {
-    public class RepositorySquare :IRepository<Square>
+    public class RepositorySquare
     {
         private MyDBContext context;
 
@@ -19,25 +22,25 @@ namespace ElectricalProspectingProfiling.Database.DAL
         }
         public async Task<List<Square>> GetAll()
         {
-            return context.Squares.ToList();
+            return await context.Squares.ToListAsync();
         }
         public async Task<Square> GetById(int id)
         {
-            return context.Squares.Find(id);
+            return await context.Squares.FirstOrDefaultAsync(sq=>sq.ID == id);
         }
-        public async void Add(Square entity)
+        public async Task Add(Square entity)
         {
             try
             {
-                context.Squares.Add(entity);
+                await context.Squares.AddAsync(entity);
                 await context.SaveChangesAsync();
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
-
+       
         public async void Update(Square entity)
         {
             try
@@ -45,7 +48,7 @@ namespace ElectricalProspectingProfiling.Database.DAL
                 context.Squares.Update(entity);
                 await context.SaveChangesAsync();
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -59,7 +62,7 @@ namespace ElectricalProspectingProfiling.Database.DAL
                 await context.SaveChangesAsync();
 
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 MessageBox.Show(ex.Message);
             }

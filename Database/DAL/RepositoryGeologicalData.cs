@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace ElectricalProspectingProfiling.Database.DAL
 {
-    public class RepositoryGeologicalData:IRepository<GeologicalData>
+    public class RepositoryGeologicalData
     {
         private MyDBContext context;
         public RepositoryGeologicalData(MyDBContext context)

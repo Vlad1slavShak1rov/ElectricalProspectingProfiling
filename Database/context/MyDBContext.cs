@@ -32,16 +32,16 @@ namespace ElectricalProspectingProfiling.Database.context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Profile>()
-             .HasOne(p => p.Square)
-             .WithMany()
-             .HasForeignKey(p => p.ПлощадьID)
-             .OnDelete(DeleteBehavior.Restrict); 
+                 .HasOne(p => p.Square)
+                 .WithMany()
+                 .HasForeignKey(p => p.ПлощадьID)
+                 .OnDelete(DeleteBehavior.Cascade); 
 
-            modelBuilder.Entity<Profile>()
-                .HasOne(p => p.CoordinatsProfile)
+            modelBuilder.Entity<Model.Contract>()
+                .HasOne(c => c.Square)
                 .WithMany()
-                .HasForeignKey(p => p.КоординатыID)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(c => c.ПлощадьID)
+                .OnDelete(DeleteBehavior.NoAction); 
         }
     }
 }

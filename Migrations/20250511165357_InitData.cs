@@ -6,11 +6,25 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ElectricalProspectingProfiling.Migrations
 {
     /// <inheritdoc />
-    public partial class Inital : Migration
+    public partial class InitData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "CoordinatsProfile",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    XКоордината = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    YКоордината = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CoordinatsProfile", x => x.ID);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Customer",
                 columns: table => new
@@ -45,34 +59,12 @@ namespace ElectricalProspectingProfiling.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    КоординатыID = table.Column<int>(type: "int", nullable: false),
                     Название = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Высота = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Squares", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CoordinatsProfile",
-                columns: table => new
-                {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    XКоордината = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    YКоордината = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    SquareID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CoordinatsProfile", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_CoordinatsProfile_Squares_SquareID",
-                        column: x => x.SquareID,
-                        principalTable: "Squares",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -114,13 +106,13 @@ namespace ElectricalProspectingProfiling.Migrations
                         column: x => x.КоординатыID,
                         principalTable: "CoordinatsProfile",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Profile_Squares_ПлощадьID",
                         column: x => x.ПлощадьID,
                         principalTable: "Squares",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -207,19 +199,18 @@ namespace ElectricalProspectingProfiling.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     КлиентID = table.Column<int>(type: "int", nullable: false),
-                    ГеологическиеДанныеID = table.Column<int>(type: "int", nullable: false),
-                    ПлощадьID = table.Column<int>(type: "int", nullable: false),
+                    ГеологическиеДанныеID = table.Column<int>(type: "int", nullable: true),
+                    ПлощадьID = table.Column<int>(type: "int", nullable: true),
                     Контакты = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     НачалоДата = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    КонецДата = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CustomerID = table.Column<int>(type: "int", nullable: false)
+                    КонецДата = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Contracts", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Contracts_Customer_CustomerID",
-                        column: x => x.CustomerID,
+                        name: "FK_Contracts_Customer_КлиентID",
+                        column: x => x.КлиентID,
                         principalTable: "Customer",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
@@ -227,14 +218,12 @@ namespace ElectricalProspectingProfiling.Migrations
                         name: "FK_Contracts_GeologicalData_ГеологическиеДанныеID",
                         column: x => x.ГеологическиеДанныеID,
                         principalTable: "GeologicalData",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ID");
                     table.ForeignKey(
                         name: "FK_Contracts_Squares_ПлощадьID",
                         column: x => x.ПлощадьID,
                         principalTable: "Squares",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ID");
                 });
 
             migrationBuilder.CreateIndex(
@@ -243,19 +232,14 @@ namespace ElectricalProspectingProfiling.Migrations
                 column: "ГеологическиеДанныеID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Contracts_КлиентID",
+                table: "Contracts",
+                column: "КлиентID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Contracts_ПлощадьID",
                 table: "Contracts",
                 column: "ПлощадьID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Contracts_CustomerID",
-                table: "Contracts",
-                column: "CustomerID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CoordinatsProfile_SquareID",
-                table: "CoordinatsProfile",
-                column: "SquareID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CoordinatsSquare_SquareID",
@@ -285,7 +269,8 @@ namespace ElectricalProspectingProfiling.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Profile_КоординатыID",
                 table: "Profile",
-                column: "КоординатыID");
+                column: "КоординатыID",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Profile_ПлощадьID",

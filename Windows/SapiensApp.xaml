@@ -11,10 +11,10 @@
         <!-- Панель меню -->
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Файл">
-                <MenuItem Header="Выход"/>
+                <MenuItem Header="Выход" Click="MenuItem_Click"/>
             </MenuItem>
             <MenuItem Header="Справка">
-                <MenuItem Header="О программе"/>
+                <MenuItem Header="О программе" Click="MenuItem_Click_1"/>
             </MenuItem>
         </Menu>
 
@@ -30,40 +30,58 @@
 
             <TabItem Header="Пикеты">
                 <StackPanel>
-                    <DataGrid Name="dgPickets" AutoGenerateColumns="True" Height="400"/>
+                    <DataGrid Name="dgPickets" AutoGenerateColumns="False" Height="400">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
+                            <DataGridTextColumn Header="Координаты" Binding="{Binding Координаты}"/>
+                            <DataGridTextColumn Header="Номер" Binding="{Binding Номер}"/>
+                            <DataGridTextColumn Header="Дистанция" Binding="{Binding Дистанция}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </StackPanel>
             </TabItem>
 
             <TabItem Header="Профили">
                 <StackPanel>
-                    <DataGrid Name="dgProfiles" AutoGenerateColumns="True" Height="400"/>
+                    <DataGrid Name="dgProfiles" Height="400" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
+                            <DataGridTextColumn Header="Метод профилирования" Binding="{Binding МетодПрофилирования}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </StackPanel>
             </TabItem>
 
             <TabItem Header="Площади">
                 <StackPanel>
                     <Button Name="addSquareButton" Content="Добавить площадь" Width="200" Click="addSquareButton_Click" />
-                    <DataGrid Name="dgAreas" AutoGenerateColumns="True" Height="400"/>
+                    <DataGrid Name="dgAreas" Height="400" AutoGenerateColumns="False" SelectionChanged="dgAreas_SelectionChanged">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="50"/>
+                            <DataGridTextColumn Header="Название" Binding="{Binding Название}" Width="200"/>
+                            <DataGridTextColumn Header="Высота" Binding="{Binding Высота}" Width="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </StackPanel>
             </TabItem>
 
             <TabItem Header="Заказчики">
                 <StackPanel>
-                    <Button Content="Добавить заказчика" Width="200" />
-                    <DataGrid Name="dgCustomers" AutoGenerateColumns="True" Height="400"/>
+                    <Button Name="btAddCustomer" Content="Добавить заказчика" Width="200" Click="AddCustomer_Click"/>
+                    <DataGrid Name="dgCustomers" AutoGenerateColumns="True" Height="400" SelectionChanged="dgCustomers_SelectionChanged"/>
                 </StackPanel>
             </TabItem>
 
             <TabItem Header="Договоры">
                 <StackPanel>
-                    <Button Content="Оформить договор" Width="200" />
+                    <Button x:Name ="btDrawUpContract" Content="Оформить договор" Width="200" Click="btDrawUpContract_Click" />
                     <DataGrid Name="dgContracts" AutoGenerateColumns="True" Height="400"/>
                 </StackPanel>
             </TabItem>
 
             <TabItem Header="Геологические данные">
                 <StackPanel>
-                    <Button Content="Добавить данные" Width="200" />
+                    <Button  Content="Добавить данные" Width="200" />
                     <DataGrid Name="dgGeologicalData" AutoGenerateColumns="True" Height="300"/>
                     <Image Name="imgGraph" Height="300" Width="500" Stretch="Uniform"/>
                 </StackPanel>

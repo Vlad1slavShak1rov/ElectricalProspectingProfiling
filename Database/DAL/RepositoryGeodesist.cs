@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace ElectricalProspectingProfiling.Database.DAL
 {
-    public class RepositoryGeodesist : IRepository<Geodesist>
+    public class RepositoryGeodesist 
     {
         private MyDBContext context;
         public RepositoryGeodesist(MyDBContext context)

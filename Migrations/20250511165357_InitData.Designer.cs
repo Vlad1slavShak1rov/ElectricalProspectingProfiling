@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ElectricalProspectingProfiling.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    [Migration("20250402131154_UpdateModelsSqueareProfile")]
-    partial class UpdateModelsSqueareProfile
+    [Migration("20250511165357_InitData")]
+    partial class InitData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,10 +33,7 @@ namespace ElectricalProspectingProfiling.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<int>("CustomerID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ГеологическиеДанныеID")
+                    b.Property<int?>("ГеологическиеДанныеID")
                         .HasColumnType("int");
 
                     b.Property<int>("КлиентID")
@@ -52,14 +49,14 @@ namespace ElectricalProspectingProfiling.Migrations
                     b.Property<DateTime>("НачалоДата")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ПлощадьID")
+                    b.Property<int?>("ПлощадьID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("CustomerID");
-
                     b.HasIndex("ГеологическиеДанныеID");
+
+                    b.HasIndex("КлиентID");
 
                     b.HasIndex("ПлощадьID");
 
@@ -74,9 +71,6 @@ namespace ElectricalProspectingProfiling.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<int>("SquareID")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("XКоордината")
                         .HasColumnType("decimal(18,2)");
 
@@ -84,8 +78,6 @@ namespace ElectricalProspectingProfiling.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("SquareID");
 
                     b.ToTable("CoordinatsProfile");
                 });
@@ -277,12 +269,10 @@ namespace ElectricalProspectingProfiling.Migrations
                     b.Property<int>("ПлощадьID")
                         .HasColumnType("int");
 
-                    b.Property<byte>("Фото_Профиля")
-                        .HasColumnType("tinyint");
-
                     b.HasKey("ID");
 
-                    b.HasIndex("КоординатыID");
+                    b.HasIndex("КоординатыID")
+                        .IsUnique();
 
                     b.HasIndex("ПлощадьID");
 
@@ -300,15 +290,9 @@ namespace ElectricalProspectingProfiling.Migrations
                     b.Property<decimal>("Высота")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("КоординатыID")
-                        .HasColumnType("int");
-
                     b.Property<string>("Название")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte>("ФотоПлощади")
-                        .HasColumnType("tinyint");
 
                     b.HasKey("ID");
 
@@ -317,38 +301,24 @@ namespace ElectricalProspectingProfiling.Migrations
 
             modelBuilder.Entity("ElectricalProspectingProfiling.Model.Contract", b =>
                 {
-                    b.HasOne("ElectricalProspectingProfiling.Model.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ElectricalProspectingProfiling.Model.GeologicalData", "GeologicalData")
                         .WithMany()
-                        .HasForeignKey("ГеологическиеДанныеID")
+                        .HasForeignKey("ГеологическиеДанныеID");
+
+                    b.HasOne("ElectricalProspectingProfiling.Model.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("КлиентID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ElectricalProspectingProfiling.Model.Square", "Square")
                         .WithMany()
                         .HasForeignKey("ПлощадьID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Customer");
 
                     b.Navigation("GeologicalData");
-
-                    b.Navigation("Square");
-                });
-
-            modelBuilder.Entity("ElectricalProspectingProfiling.Model.CoordinatsProfile", b =>
-                {
-                    b.HasOne("ElectricalProspectingProfiling.Model.Square", "Square")
-                        .WithMany()
-                        .HasForeignKey("SquareID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.Navigation("Square");
                 });
@@ -408,20 +378,26 @@ namespace ElectricalProspectingProfiling.Migrations
             modelBuilder.Entity("ElectricalProspectingProfiling.Model.Profile", b =>
                 {
                     b.HasOne("ElectricalProspectingProfiling.Model.CoordinatsProfile", "CoordinatsProfile")
-                        .WithMany()
-                        .HasForeignKey("КоординатыID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .WithOne("Profile")
+                        .HasForeignKey("ElectricalProspectingProfiling.Model.Profile", "КоординатыID")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ElectricalProspectingProfiling.Model.Square", "Square")
                         .WithMany()
                         .HasForeignKey("ПлощадьID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("CoordinatsProfile");
 
                     b.Navigation("Square");
+                });
+
+            modelBuilder.Entity("ElectricalProspectingProfiling.Model.CoordinatsProfile", b =>
+                {
+                    b.Navigation("Profile")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ElectricalProspectingProfiling.Model.Measurement", b =>

@@ -1,5 +1,6 @@
 ﻿using ElectricalProspectingProfiling.Database.context;
 using ElectricalProspectingProfiling.Model;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Windows;
 
 namespace ElectricalProspectingProfiling.Database.DAL
 {
-    public class RepositoryCoordinatsSquare:IRepository<CoordinatsSquare>
+    public class RepositoryCoordinatsSquare
     {
         private MyDBContext context;
         public RepositoryCoordinatsSquare(MyDBContext context)
@@ -26,33 +27,33 @@ namespace ElectricalProspectingProfiling.Database.DAL
         {
             return context.CoordinatsSquare.Find(id);
         }
-        public async void Add(CoordinatsSquare entity)
+        public async Task Add(CoordinatsSquare entity)
         {
             try
             {
                 context.CoordinatsSquare.Add(entity);
                 await context.SaveChangesAsync();
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
 
-        public async void Update(CoordinatsSquare entity)
+        public async Task Update(CoordinatsSquare entity)
         {
             try
             {
                 context.CoordinatsSquare.Update(entity);
                 await context.SaveChangesAsync();
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
 
-        public async void Remove(CoordinatsSquare entity)
+        public async Task Remove(CoordinatsSquare entity)
         {
             try
             {
@@ -60,7 +61,7 @@ namespace ElectricalProspectingProfiling.Database.DAL
                 await context.SaveChangesAsync();
 
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 MessageBox.Show(ex.Message);
             }

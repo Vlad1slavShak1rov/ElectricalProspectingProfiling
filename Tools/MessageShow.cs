@@ -11,5 +11,6 @@ namespace ElectricalProspectingProfiling.Tools
     static public class MessageShow
     {
         public static void Information(string info) => MessageBox.Show(info,"Информация!",MessageBoxButton.OK,MessageBoxImage.Information);
+        public static MessageBoxResult Question(string message) => MessageBox.Show(message, "Вопрос", MessageBoxButton.YesNo, MessageBoxImage.Question);
     }
 }

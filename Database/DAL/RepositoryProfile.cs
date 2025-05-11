@@ -1,5 +1,6 @@
 ﻿using ElectricalProspectingProfiling.Database.context;
 using ElectricalProspectingProfiling.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Windows;
 
 namespace ElectricalProspectingProfiling.Database.DAL
 {
-    public class RepositoryProfile : IRepository<Profile>
+    public class RepositoryProfile
     {
         private MyDBContext context;
 
@@ -26,7 +27,12 @@ namespace ElectricalProspectingProfiling.Database.DAL
         {
             return context.Profile.Find(id);
         }
-        public async void Add(Profile entity)
+
+        public async Task<List<Profile>> GetBySquareID(int id)
+        {
+            return await context.Profile.Where(pr=>pr.ПлощадьID == id).ToListAsync();
+        }
+        public async Task Add(Profile entity)
         {
             try
             {

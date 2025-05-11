@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace ElectricalProspectingProfiling.Database.DAL
 {
-    public class RepositoryContractL:IRepository<Contract>
+    public class RepositoryContractL
     {
         private MyDBContext context;
         public RepositoryContractL(MyDBContext context)

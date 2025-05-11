@@ -1,5 +1,6 @@
 ﻿using ElectricalProspectingProfiling.Database.context;
 using ElectricalProspectingProfiling.Model;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Windows;
 
 namespace ElectricalProspectingProfiling.Database.DAL
 {
-    public class RepositoryCustomer:IRepository<Customer>
+    public class RepositoryCustomer
     {
         private MyDBContext context;
         public RepositoryCustomer(MyDBContext context)
@@ -24,7 +25,7 @@ namespace ElectricalProspectingProfiling.Database.DAL
         {
             return context.Customer.Find(id);
         }
-        public async void Add(Customer entity)
+        public async Task Add(Customer entity)
         {
             try
             {
@@ -37,7 +38,7 @@ namespace ElectricalProspectingProfiling.Database.DAL
             }
         }
 
-        public async void Update(Customer entity)
+        public async Task Update(Customer entity)
         {
             try
             {
@@ -50,7 +51,7 @@ namespace ElectricalProspectingProfiling.Database.DAL
             }
         }
 
-        public async void Remove(Customer entity)
+        public async Task Remove(Customer entity)
         {
             try
             {
@@ -58,7 +59,7 @@ namespace ElectricalProspectingProfiling.Database.DAL
                 await context.SaveChangesAsync();
 
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 MessageBox.Show(ex.Message);
             }

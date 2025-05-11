@@ -13,14 +13,14 @@ namespace ElectricalProspectingProfiling.Model
         [Key]
         public int ID { get; set; }
 
-        [ForeignKey("Client")]
+        [ForeignKey("Customer")]
         public int КлиентID { get; set; }
 
         [ForeignKey("GeologicalData")]
-        public int ГеологическиеДанныеID { get; set; }
+        public int? ГеологическиеДанныеID { get; set; }
 
         [ForeignKey("Square")]
-        public int ПлощадьID { get; set; }
+        public int? ПлощадьID { get; set; }
 
         [Required]
         public string Контакты { get; set; }

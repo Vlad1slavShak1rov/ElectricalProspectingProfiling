@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace ElectricalProspectingProfiling.Database.DAL
 {
-    public class RepositoryPicket:IRepository<Picket>
+    public class RepositoryPicket
     {
         private MyDBContext context;
         public RepositoryPicket(MyDBContext context)
@@ -26,7 +26,12 @@ namespace ElectricalProspectingProfiling.Database.DAL
         {
             return context.Picket.Find(id);
         }
-        public async void Add(Picket entity)
+
+        public async Task<List<Picket>> GetByPicketID(int id)
+        {
+            return await context.Picket.Where(pc => pc.ПрофильID == id).ToListAsync();
+        }
+        public async Task Add(Picket entity)
         {
             try
             {

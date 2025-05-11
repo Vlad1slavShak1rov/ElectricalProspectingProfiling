@@ -21,9 +21,9 @@ namespace ElectricalProspectingProfiling.Windows
     /// <summary>
     /// Логика взаимодействия для AddCustomerWindow.xaml
     /// </summary>
-    public partial class AddCustomerWindow : Window
+    public partial class AddGeodesistWindow : Window
     {
-        public AddCustomerWindow()
+        public AddGeodesistWindow()
         {
             InitializeComponent();
         }

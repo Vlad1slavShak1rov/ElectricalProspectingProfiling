@@ -1,20 +1,23 @@
-﻿<Window x:Class="ElectricalProspectingProfiling.Windows.AddGeodesistWindow"
+﻿<Window x:Class="ElectricalProspectingProfiling.Windows.AddCustomerWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ElectricalProspectingProfiling.Windows"
         mc:Ignorable="d"
-        Title="AddCustomerWindow" Height="250" Width="230" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="ToolWindow"> 
+        Title="AddCustomerWindow" Height="250" Width="230" WindowStartupLocation="CenterScreen">
     <Grid>
         <StackPanel HorizontalAlignment="Left">
             <Label Content="Имя"/>
             <TextBox Name="nameBox" Margin="5 0 0 0" Width="200" FontSize="14" />
-            
+
             <Label Content="Контакты"/>
             <TextBox Name="contactBox" Margin="5 0 0 0" Width="200" FontSize="14" />
+            
+            <Button Name="addButton" Content="Добавить" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 10 0 10" Width="100" Height="30" Click="addButton_Click" />
+            <Button Name="brDeleteCustomer" Content="Удалить" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 0 0" Width="100" Height="30" Click="brDeleteCustomer_Click" Visibility="Collapsed"/>
         </StackPanel>
 
-        <Button Name="addButton" Content="Добавить" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0 0 0 10" Width="100" Height="30" Click="addButton_Click"/>
+       
     </Grid>
 </Window>

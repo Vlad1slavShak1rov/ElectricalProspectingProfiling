@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,10 +12,15 @@ namespace ElectricalProspectingProfiling.Model
     {
         [Key]
         public int ID { get; set; }
+
         [Required]
         public decimal XКоордината { get; set; }
+
         [Required]
         public decimal YКоордината { get; set; }
+
+        [ForeignKey("Square")]
+        public int SquareID { get; set; }
 
         public virtual Square Square { get; set; }
     }

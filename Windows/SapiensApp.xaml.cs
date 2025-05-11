@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ElectricalProspectingProfiling.Database.context;
 using ElectricalProspectingProfiling.Database.DAL;
+using ElectricalProspectingProfiling.Tools;
 using ElectricalProspectingProfiling.Windows;
 
 namespace ElectricalProspectingProfiling.Model
@@ -22,6 +23,7 @@ namespace ElectricalProspectingProfiling.Model
     /// </summary>
     public partial class SapiensApp : Window
     {
+        private Square square;
         public SapiensApp()
         {
             InitializeComponent();
@@ -32,23 +34,44 @@ namespace ElectricalProspectingProfiling.Model
         {
             using var context = new MyDBContext();
             await LoadGeodesist(context);
-            await LoadPicket(context);
+            await LoadSquare(context);
+            await LoadCustomer(context);
         }
 
+        private async Task LoadCustomer(MyDBContext context)
+        {
+            RepositoryCustomer repositoryCustomer = new(context);
+            dgCustomers.ItemsSource = await repositoryCustomer.GetAll();
+        }
+
+        private async Task LoadSquare(MyDBContext context)
+        {
+            RepositorySquare repositorySquare = new(context);
+            dgAreas.ItemsSource = await repositorySquare.GetAll();
+        }
         private async Task LoadGeodesist(MyDBContext context)
         {
             RepositoryGeodesist repositoryGeodesist = new(context);
-            dgPickets.ItemsSource = await repositoryGeodesist.GetAll();
+            dgSurveyors.ItemsSource = await repositoryGeodesist.GetAll();
         }
 
-        private async Task LoadPicket(MyDBContext context)
+        private async Task LoadPicketProfile(Square square)
         {
-            RepositoryPicket repository = new(context);
-            dgPickets.ItemsSource = await repository.GetAll();
+            using var context = new MyDBContext();
+
+            RepositoryPicket repositoryPicket = new(context);
+            RepositoryProfile repositoryProfile = new(context);
+
+            var profiles = await repositoryProfile.GetBySquareID(square.ID);
+            dgProfiles.ItemsSource = profiles;
+
+            var pickets = await repositoryPicket.GetByPicketID(profiles[0].ID);
+            dgPickets.ItemsSource = pickets;
         }
+
         private async void addGeodesistButton_Click(object sender, RoutedEventArgs e)
         {
-            AddCustomerWindow addCustomerWindow = new();
+            AddGeodesistWindow addCustomerWindow = new();
             var result = addCustomerWindow.ShowDialog();
             if(result == true)
             {
@@ -57,14 +80,68 @@ namespace ElectricalProspectingProfiling.Model
             }
         }
 
-        private void addSquareButton_Click(object sender, RoutedEventArgs e)
+        private async void addSquareButton_Click(object sender, RoutedEventArgs e)
         {
             AddSquareWindow addSquareWindow = new();
             var result = addSquareWindow.ShowDialog();
             if(result == true)
             {
-
+                using var context = new MyDBContext();
+                await LoadSquare(context);
             }
+        }
+
+        private async void dgAreas_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            square = dgAreas.SelectedItem as Square;
+            await LoadPicketProfile(square);
+
+            MessageShow.Information("Успешно!");
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            string info = $"Данная программа разработана для просмотра результатов изучения методом СЭП";
+            MessageShow.Information(info);
+        }
+
+        private async void AddCustomer_Click(object sender, RoutedEventArgs e)
+        {
+            AddCustomerWindow addCustomerWindow = new();
+            var result = addCustomerWindow.ShowDialog();
+
+            if(result == true)
+            {
+                using var context = new MyDBContext();
+                await LoadCustomer(context);
+            }
+        }
+
+        private async void dgCustomers_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedItem = dgCustomers.SelectedItem as Customer;
+            if (selectedItem == null) return;
+
+            AddCustomerWindow addCustomerWindow = new(selectedItem);
+            var result = addCustomerWindow.ShowDialog();
+
+            if (result == true)
+            {
+                using var context = new MyDBContext();
+                {
+                    await LoadCustomer(context);
+                }
+            }
+        }
+
+        private void btDrawUpContract_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

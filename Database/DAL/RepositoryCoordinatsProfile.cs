@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace ElectricalProspectingProfiling.Database.DAL
 {
-    public class RepositoryCoordinatsProfile : IRepository<CoordinatsProfile>
+    public class RepositoryCoordinatsProfile
     {
         private MyDBContext context;
         public RepositoryCoordinatsProfile(MyDBContext context)
@@ -24,7 +24,7 @@ namespace ElectricalProspectingProfiling.Database.DAL
         {
             return context.CoordinatsProfile.Find(id);
         }
-        public async void Add(CoordinatsProfile entity)
+        public async Task Add(CoordinatsProfile entity)
         {
             try
             {

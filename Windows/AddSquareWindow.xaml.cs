@@ -1,5 +1,6 @@
 ﻿using ElectricalProspectingProfiling.Model;
 using ElectricalProspectingProfiling.Tools;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +8,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.IO;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ElectricalProspectingProfiling.Database.context;
+using ElectricalProspectingProfiling.Database.DAL;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ElectricalProspectingProfiling.Windows
 {
@@ -23,6 +28,8 @@ namespace ElectricalProspectingProfiling.Windows
     {
         private List<CoordinatsSquare> coordinatsSquares = new();
         private List<CoordinatsProfile> coordinatsProfiles = new();
+        private List<string> coordinatsPicket = new();
+
         public AddSquareWindow()
         {
             InitializeComponent();
@@ -34,26 +41,33 @@ namespace ElectricalProspectingProfiling.Windows
             string x = xCoordinateTextBox.Text;
             string y = yCoordinateTextBox.Text;
 
-            // Проверка на пустые значения
             if (Validator.IsNullOrEmptyOrWhiteSpace(x, y))
             {
                 MessageShow.Information("У вас есть незаполненные координаты!");
                 return;
             }
 
-            // Преобразуем строки в целые числа
-            int xCoordinate = int.Parse(x);
-            int yCoordinate = int.Parse(y);
+            int xCoordinate;            
+            int yCoordinate;
 
-            // Создаем координату
+            if(!int.TryParse(x,out xCoordinate))
+            {
+                MessageShow.Information("У вас есть незаполненные координаты!");
+                return;
+            }
+
+            if (!int.TryParse(x, out yCoordinate))
+            {
+                MessageShow.Information("У вас есть незаполненные координаты!");
+                return;
+            }
+
             T coordinate = createCoordinate(xCoordinate, yCoordinate);
 
-            // Добавляем в список
             coordinateList.Add(coordinate);
 
             string coordinateText = $"X: {x} Y: {y}";
 
-            // Проверка на уникальность координаты в списке
             if (!coordinateListBox.Items.Contains(coordinateText))
             {
                 coordinateListBox.Items.Add(coordinateText);
@@ -65,8 +79,6 @@ namespace ElectricalProspectingProfiling.Windows
                 MessageShow.Information("Данные координаты уже добавлены!");
             }
         }
-
-        // Обработчики событий
         private void addSquareCoordinateButton_Click(object sender, RoutedEventArgs e)
         {
             AddCoordinate(
@@ -109,12 +121,77 @@ namespace ElectricalProspectingProfiling.Windows
 
         private void addpicketCoordinateButton_Click(object sender, RoutedEventArgs e)
         {
-
+            AddCoordinate(
+                xCoordinatepicket,
+                yCoordinatepicket,
+                coordinatsPicket,
+                picketCoordinateListBox,
+                (x, y) => $"X: {x}, Y: {y}"
+            );
         }
 
         private void removepicketCoordinateButton_Click(object sender, RoutedEventArgs e)
         {
+            if (picketCoordinateListBox.Items.Count > 0)
+            {
+                var item = picketCoordinateListBox.Items[picketCoordinateListBox.Items.Count - 1];
+                picketCoordinateListBox.Items.Remove(item);
+            }
+        }
 
+      
+
+        private async void saveButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(squareCoordinateListBox.Items.Count < 4 || ProfileCoordinateListBox.Items.Count < 4 || picketCoordinateListBox.Items.Count < 4)
+            {
+                MessageShow.Information("Добавьте хотя бы 4 координат в каждый пункт.");
+                return;
+            }
+            
+         
+            string name = nameSquareBox.Text;
+            string height = heightBox.Text;
+            var methodProfile = (profileComboBox.SelectedItem as ComboBoxItem)!.Content;
+
+            if (Validator.IsNullOrEmptyOrWhiteSpace(name, height))
+            {
+                MessageShow.Information("У вас есть незаполненные поля!");
+                return;
+            }
+
+            using var context = new MyDBContext();
+            RepositoryCoordinatsProfile repositoryCoordinatsProfile = new(context);
+            RepositoryCoordinatsSquare repositoryCoordinatsSquare = new(context);
+            RepositoryProfile repositoryProfile = new(context);
+            RepositorySquare repositorySquare = new(context);
+            RepositoryPicket repositoryPicket = new(context);
+
+            var square = new Square() { Высота = decimal.Parse(height), Название = name};
+            await repositorySquare.Add(square);
+
+            var existSquare = await repositorySquare.GetById(square.ID);
+            foreach(var squareCoordinat in coordinatsSquares)
+            {
+                squareCoordinat.SquareID = existSquare.ID;
+                await repositoryCoordinatsSquare.Add(squareCoordinat);
+            }
+
+            foreach (var profiliCoord in coordinatsProfiles)
+            {
+                int count = 0;
+                await repositoryCoordinatsProfile.Add(profiliCoord);
+                var profile = new Profile() { Square = square, МетодПрофилирования = methodProfile.ToString(),КоординатыID = profiliCoord.ID };
+                await repositoryProfile.Add(profile);
+                foreach (var picketCoord in coordinatsPicket)
+                {
+                    await repositoryPicket.Add(new Picket { Дистанция = (new Random()).Next(1, 150), Координаты = picketCoord, ПрофильID = profile.ID, Номер = ++count });
+                }
+            }
+            MessageShow.Information("Успешно сохранено!");
+
+            this.DialogResult = true;
+            this.Close();
         }
     }
 }

@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace ElectricalProspectingProfiling.Database.DAL
 {
-    public class RepositoryMeasurement:IRepository<Measurement>
+    public class RepositoryMeasurement
     {
         private MyDBContext context;
         public RepositoryMeasurement(MyDBContext context)
