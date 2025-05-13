@@ -16,7 +16,6 @@ namespace ElectricalProspectingProfiling.Model
 
         [ForeignKey("Profile")]
         public int ПрофильID { get; set; }
-
         [Required]
         public string Координаты { get; set; }
 
@@ -24,7 +23,8 @@ namespace ElectricalProspectingProfiling.Model
 
         public decimal Дистанция { get; set; }
 
+        public string ShowInfo { get => $"Номер пикета: {Номер}"; }
         public virtual Profile Profile { get; set; }
-        public virtual List<Measurement> Measurements { get; set; }
+        public virtual Measurement Measurement { get; set; }
     }
 }

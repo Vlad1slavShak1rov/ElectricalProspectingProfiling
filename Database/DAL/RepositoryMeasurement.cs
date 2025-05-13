@@ -25,7 +25,7 @@ namespace ElectricalProspectingProfiling.Database.DAL
         {
             return context.Measurement.Find(id);
         }
-        public async void Add(Measurement entity)
+        public async Task Add(Measurement entity)
         {
             try
             {

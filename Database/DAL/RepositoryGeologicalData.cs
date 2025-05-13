@@ -25,7 +25,7 @@ namespace ElectricalProspectingProfiling.Database.DAL
         {
             return context.GeologicalData.Find(id);
         }
-        public async void Add(GeologicalData entity)
+        public async Task Add(GeologicalData entity)
         {
             try
             {

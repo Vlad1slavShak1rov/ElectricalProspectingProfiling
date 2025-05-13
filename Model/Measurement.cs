@@ -12,10 +12,10 @@ namespace ElectricalProspectingProfiling.Model
     {
         [Key]
         public int ID { get; set; }
-
+        [ForeignKey("GeologicalData")]
+        public int ГеологическиеДанныеID { get; set; }
         [ForeignKey("Picket")]
-        public int ПикетID { get; set; }
-
+        public int ПикетыID { get; set; }
         public DateTime Дата { get; set; }
 
         [Required]
@@ -27,12 +27,11 @@ namespace ElectricalProspectingProfiling.Model
 
         public decimal Вольтаж { get; set; }
 
-        public decimal Сопротивление { get; set; }
+        public double Сопротивление { get; set; }
 
-        public decimal Температура { get; set; }
 
         public virtual Picket Picket { get; set; }
-        public virtual List<GeologicalData> GeologicalDataList { get; set; }
+        public virtual GeologicalData GeologicalData { get; set; }
     }
 
 }

@@ -15,6 +15,7 @@ using ElectricalProspectingProfiling.Database.context;
 using ElectricalProspectingProfiling.Database.DAL;
 using ElectricalProspectingProfiling.Tools;
 using ElectricalProspectingProfiling.Windows;
+using Microsoft.EntityFrameworkCore;
 
 namespace ElectricalProspectingProfiling.Model
 {
@@ -36,6 +37,19 @@ namespace ElectricalProspectingProfiling.Model
             await LoadGeodesist(context);
             await LoadSquare(context);
             await LoadCustomer(context);
+            await LoadContracts(context);
+            await LoadGeologicalData(context);
+        }
+
+        private async Task LoadGeologicalData(MyDBContext context)
+        {
+            RepositoryGeologicalData repositoryGeologicalData = new(context);
+            dgGeologicalData.ItemsSource = await repositoryGeologicalData.GetAll();
+        }
+        private async Task LoadContracts(MyDBContext context)
+        {
+            var contracts = await context.Contracts.Include(c => c.Customer).Include(s => s.Square).ToListAsync();
+            dgContracts.ItemsSource = contracts;
         }
 
         private async Task LoadCustomer(MyDBContext context)
@@ -79,7 +93,6 @@ namespace ElectricalProspectingProfiling.Model
                 await LoadGeodesist(context);
             }
         }
-
         private async void addSquareButton_Click(object sender, RoutedEventArgs e)
         {
             AddSquareWindow addSquareWindow = new();
@@ -139,9 +152,39 @@ namespace ElectricalProspectingProfiling.Model
             }
         }
 
-        private void btDrawUpContract_Click(object sender, RoutedEventArgs e)
+        private async void btDrawUpContract_Click(object sender, RoutedEventArgs e)
         {
+            AddContractWindow addContractWindow = new();
+            var result = addContractWindow.ShowDialog();
+            if(result == true)
+            {
+                using var context = new MyDBContext();
+                {
+                    await LoadContracts(context);
+                }
+              
+            }
+        }
 
+        private async void btAddData_Click(object sender, RoutedEventArgs e)
+        {
+            AddDataWindow addDataWindow = new();
+            var result = addDataWindow.ShowDialog();
+            if(result == true)
+            {
+                using var context = new MyDBContext();
+                await LoadGeologicalData(context);
+            }
+        }
+
+        private void dgGeologicalData_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+            var selectedItem = dgGeologicalData.SelectedItem;
+            if (selectedItem == null) return;
+
+            var geologicalData = selectedItem as GeologicalData;
+            MeasurmentWindow measurement = new(geologicalData);
+            measurement.ShowDialog();
         }
     }
 }

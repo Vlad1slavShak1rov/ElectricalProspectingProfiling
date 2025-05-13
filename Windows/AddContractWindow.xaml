@@ -5,8 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ElectricalProspectingProfiling.Windows"
         mc:Ignorable="d"
-        Title="AddContractWindow" Height="450" Width="800">
+        Title="AddContractWindow" Height="350" Width="600" WindowStartupLocation="CenterScreen">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0">
+            <Label Content="Заказчик" FontSize="16"/>
+            <ComboBox x:Name="cbCustomer" FontSize="16" SelectionChanged="cbCustomer_SelectionChanged"/>
+
+            <Label Content="Геологические данные" FontSize="16"/>
+            <ComboBox x:Name="cbGeologicalData" FontSize="16"/>
+
+            <Label Content="Площадь" FontSize="16"/>
+            <ComboBox x:Name="cbSquare" FontSize="16"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1">
+            <Label Content="Контакты" FontSize="16"/>
+            <TextBox x:Name="tbContacts" FontSize="16" IsReadOnly="True"/>
+            <Label Content="Дата начала" FontSize="16" />
+            <DatePicker x:Name="dpStart" FontSize="16"/>
+            <Label Content="Дата конца" FontSize="16"/>
+            <DatePicker x:Name="dpEnd" FontSize="16"/>
+
+            <Button x:Name="btSave" Content="Подписать" FontSize="16" Margin="0 10" Click="btSave_Click"/>
+        </StackPanel>
     </Grid>
 </Window>

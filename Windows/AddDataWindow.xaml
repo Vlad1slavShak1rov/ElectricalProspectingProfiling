@@ -1,0 +1,31 @@
+﻿<Window x:Class="ElectricalProspectingProfiling.Windows.AddDataWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ElectricalProspectingProfiling.Windows"
+        mc:Ignorable="d"
+        Title="AddDataWindow" Height="450" Width="400" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <Label Content="Геодезист" FontSize="16"/>
+            <ComboBox x:Name="cbGeodesist" FontSize="16" SelectedIndex="0"/>
+
+            <Label Content="Тип Породы" FontSize="16"/>
+            <TextBox x:Name="tbTypeRock" FontSize="16"/>
+
+            <Label Content="Описание структуры" FontSize="16"/>
+            <TextBox x:Name="tbDescription" FontSize="16" Height="100" TextWrapping="WrapWithOverflow" MaxLength="64"/>
+
+            <Label Content="Загрязнение почвы" FontSize="16"/>
+            <ComboBox x:Name="cbPolution" SelectedIndex="0" FontSize="16">
+                <ComboBoxItem Content="Чистая"/>
+                <ComboBoxItem Content="Допустимая"/>
+                <ComboBoxItem Content="Умеренно опасная"/>
+                <ComboBoxItem Content="Опасная"/>
+            </ComboBox>
+
+            <Button x:Name="btCreateData" Content="Создать исследование" Margin="0 20"  FontSize="24" Click="btCreateData_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

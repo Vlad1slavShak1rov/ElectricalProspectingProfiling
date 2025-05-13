@@ -7,7 +7,6 @@
         mc:Ignorable="d"
         Title="SapiensApp" Height="700" Width="800" WindowStartupLocation="CenterScreen">
     <DockPanel>
-
         <!-- Панель меню -->
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Файл">
@@ -75,14 +74,23 @@
             <TabItem Header="Договоры">
                 <StackPanel>
                     <Button x:Name ="btDrawUpContract" Content="Оформить договор" Width="200" Click="btDrawUpContract_Click" />
-                    <DataGrid Name="dgContracts" AutoGenerateColumns="True" Height="400"/>
+                    <DataGrid Name="dgContracts" Height="400" AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Номер договора" Binding="{Binding ID}" Width="*"/>
+                            <DataGridTextColumn Header="Клиент" Binding="{Binding Customer.Имя}"/>
+                            <DataGridTextColumn Header="Название площади" Binding="{Binding Squates.Название}" Width="*"/>
+                            <DataGridTextColumn Header="Контакты" Binding="{Binding Контакты}" Width="*"/>
+                            <DataGridTextColumn Header="Начало исследования" Binding="{Binding НачалоДата}" Width="*"/>
+                            <DataGridTextColumn Header="Конец исследования" Binding="{Binding КонецДата}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </StackPanel>
             </TabItem>
 
             <TabItem Header="Геологические данные">
                 <StackPanel>
-                    <Button  Content="Добавить данные" Width="200" />
-                    <DataGrid Name="dgGeologicalData" AutoGenerateColumns="True" Height="300"/>
+                    <Button x:Name="btAddData" Content="Создать исследование" Width="200" Click="btAddData_Click" />
+                    <DataGrid Name="dgGeologicalData" AutoGenerateColumns="True" Height="300" SelectedCellsChanged="dgGeologicalData_SelectedCellsChanged"/>
                     <Image Name="imgGraph" Height="300" Width="500" Stretch="Uniform"/>
                 </StackPanel>
             </TabItem>

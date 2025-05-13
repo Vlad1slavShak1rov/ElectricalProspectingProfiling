@@ -1,0 +1,56 @@
+﻿<Window x:Class="ElectricalProspectingProfiling.Windows.MeasurmentWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ElectricalProspectingProfiling.Windows"
+        mc:Ignorable="d"
+        Title="MeasurmentWindow" Height="550" Width="400" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <StackPanel>
+            <StackPanel>
+                <Label Content="Номера пикетов" FontSize="18"/>
+                <ComboBox x:Name="cbPickets" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220"  FontSize="18" SelectionChanged="cbPickets_SelectionChanged" SelectedIndex="0"/>
+            </StackPanel>
+            
+            <StackPanel HorizontalAlignment="Left">
+                <Label Content="Дата измерения" FontSize="18"/>
+                <DatePicker x:Name="dpStartMeasurement" FontSize="18" Width="150"/>
+            </StackPanel>
+
+            <StackPanel HorizontalAlignment="Left">
+                <Label Content="Тип профилирования" FontSize="18"/>
+                <ComboBox x:Name="cbTypeProfile" FontSize="18" Width="300" HorizontalAlignment="Left" SelectedIndex="0">
+                    <ComboBoxItem Content="ВЭЗ (вертикальное зондирование)"/>
+                    <ComboBoxItem Content="Горизонтальное профилирование (ПФЗ)"/>
+                    <ComboBoxItem Content="Электротомография"/>
+                    <ComboBoxItem Content="Вынужденная поляризация (ВП)"/>
+                    <ComboBoxItem Content="Дипольное профилирование"/>
+                    <ComboBoxItem Content="Диагональное профилирование"/>
+                </ComboBox>
+            </StackPanel>
+            
+            <StackPanel HorizontalAlignment="Left">
+                <Label Content="Километр пикета" FontSize="18"/>
+                <TextBox x:Name="tbDistance" FontSize="18" Width="150" HorizontalAlignment="Left"/>
+            </StackPanel>
+
+            <StackPanel HorizontalAlignment="Left">
+                <Label Content="Подаваемый ток" FontSize="18"/>
+                <TextBox x:Name="tbAmperaget" FontSize="18" Width="150" HorizontalAlignment="Left" PreviewTextInput="tbAmperaget_PreviewTextInput"/>
+            </StackPanel>
+
+            <StackPanel HorizontalAlignment="Left">
+                <Label Content="Подаваемое напряжение" FontSize="18"/>
+                <TextBox x:Name="tbVoltage" FontSize="18" Width="150" HorizontalAlignment="Left" PreviewTextInput="tbVoltage_PreviewTextInput"/>
+            </StackPanel>
+
+            <StackPanel HorizontalAlignment="Left">
+                <Label Content="Итоговое сопротивление" FontSize="18"/>
+                <TextBox x:Name="tbResistance" FontSize="18" Width="150" HorizontalAlignment="Left" IsReadOnly="True"/>
+
+                <Button x:Name="btSave" Content="Сохранить" FontSize="18" Margin="0 20" Click="btSave_Click"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

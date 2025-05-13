@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ElectricalProspectingProfiling.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    [Migration("20250511165357_InitData")]
+    [Migration("20250513100847_InitData")]
     partial class InitData
     {
         /// <inheritdoc />
@@ -163,9 +163,6 @@ namespace ElectricalProspectingProfiling.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ИзмеренияID")
-                        .HasColumnType("int");
-
                     b.Property<string>("ОписаниеСтруктуры")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -177,8 +174,6 @@ namespace ElectricalProspectingProfiling.Migrations
                     b.HasKey("ID");
 
                     b.HasIndex("ГеодезистID");
-
-                    b.HasIndex("ИзмеренияID");
 
                     b.ToTable("GeologicalData");
                 });
@@ -194,20 +189,20 @@ namespace ElectricalProspectingProfiling.Migrations
                     b.Property<decimal>("Вольтаж")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("ГеологическиеДанныеID")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Дата")
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("ДистанцияМеждуЭлектродами")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("ПикетID")
+                    b.Property<int>("ПикетыID")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Сопротивление")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("Температура")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Сопротивление")
+                        .HasColumnType("float");
 
                     b.Property<string>("ТипПрофилирования")
                         .IsRequired()
@@ -218,7 +213,10 @@ namespace ElectricalProspectingProfiling.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("ПикетID");
+                    b.HasIndex("ГеологическиеДанныеID");
+
+                    b.HasIndex("ПикетыID")
+                        .IsUnique();
 
                     b.ToTable("Measurement");
                 });
@@ -342,24 +340,24 @@ namespace ElectricalProspectingProfiling.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ElectricalProspectingProfiling.Model.Measurement", "Measurement")
-                        .WithMany("GeologicalDataList")
-                        .HasForeignKey("ИзмеренияID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Geodesist");
-
-                    b.Navigation("Measurement");
                 });
 
             modelBuilder.Entity("ElectricalProspectingProfiling.Model.Measurement", b =>
                 {
-                    b.HasOne("ElectricalProspectingProfiling.Model.Picket", "Picket")
+                    b.HasOne("ElectricalProspectingProfiling.Model.GeologicalData", "GeologicalData")
                         .WithMany("Measurements")
-                        .HasForeignKey("ПикетID")
+                        .HasForeignKey("ГеологическиеДанныеID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("ElectricalProspectingProfiling.Model.Picket", "Picket")
+                        .WithOne("Measurement")
+                        .HasForeignKey("ElectricalProspectingProfiling.Model.Measurement", "ПикетыID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GeologicalData");
 
                     b.Navigation("Picket");
                 });
@@ -400,14 +398,15 @@ namespace ElectricalProspectingProfiling.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ElectricalProspectingProfiling.Model.Measurement", b =>
+            modelBuilder.Entity("ElectricalProspectingProfiling.Model.GeologicalData", b =>
                 {
-                    b.Navigation("GeologicalDataList");
+                    b.Navigation("Measurements");
                 });
 
             modelBuilder.Entity("ElectricalProspectingProfiling.Model.Picket", b =>
                 {
-                    b.Navigation("Measurements");
+                    b.Navigation("Measurement")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ElectricalProspectingProfiling.Model.Profile", b =>

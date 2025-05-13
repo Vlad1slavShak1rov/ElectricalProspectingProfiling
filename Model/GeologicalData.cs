@@ -12,10 +12,6 @@ namespace ElectricalProspectingProfiling.Model
     {
         [Key]
         public int ID { get; set; }
-
-        [ForeignKey("Measurement")]
-        public int ИзмеренияID { get; set; }
-
         [ForeignKey("Geodesist")]
         public int ГеодезистID { get; set; }
 
@@ -26,7 +22,8 @@ namespace ElectricalProspectingProfiling.Model
 
         public string Загрязнение { get; set; }
 
-        public virtual Measurement Measurement { get; set; }
+        public string Info { get => $"Номер исследования {ID}"; }
+        public virtual List<Measurement> Measurements { get; set; }
         public virtual Geodesist Geodesist { get; set; }
     }
 
