@@ -29,8 +29,6 @@ namespace ElectricalProspectingProfiling.Windows
         {
             InitializeComponent();
             GeologicalData = geologicalData;
-            tbAmperaget.TextInput += tbAmperaget_TextInput;
-            tbVoltage.TextInput += tbVoltage_TextInput;
             InitData();
         }
 
@@ -39,8 +37,9 @@ namespace ElectricalProspectingProfiling.Windows
             using var context = new MyDBContext();
             var measurements = await context.Measurement.Where(m=>m.ГеологическиеДанныеID == GeologicalData.ID).ToListAsync();
             List<Picket> pickets = new();
+            await PlotMeasurement(measurements);
 
-            foreach(var measurement in measurements)
+            foreach (var measurement in measurements)
             {
                 var picket = await context.Picket.FirstOrDefaultAsync(p => p.ID == measurement.ПикетыID);
                 pickets.Add(picket);
@@ -48,6 +47,36 @@ namespace ElectricalProspectingProfiling.Windows
 
             cbPickets.ItemsSource = pickets;
             cbPickets.DisplayMemberPath = "ShowInfo";
+
+        }
+
+        private async Task PlotMeasurement(List<Measurement> measurements )
+        {
+            pltMeasurement.Plot.Clear();
+            double[] coordinatesX = new double[measurements.Count];
+            double[] coordinatesY = new double[measurements.Count];
+
+            int i = -1;
+            foreach(var measurement in measurements)
+            {
+                ++i;
+                if(measurement.Сопротивление == 0.0)
+                    continue;
+
+                coordinatesX[i] = measurement.Вольтаж;
+                coordinatesY[i] = measurement.Сопротивление;
+            }
+                
+
+            var poly = pltMeasurement.Plot.Add.ScatterLine(coordinatesX, coordinatesY);
+
+            poly.FillY = true;
+            poly.ColorPositions.Add(new(ScottPlot.Colors.Red, 0));
+            poly.ColorPositions.Add(new(ScottPlot.Colors.Orange, 10));
+            poly.ColorPositions.Add(new(ScottPlot.Colors.Yellow, 20));
+            poly.ColorPositions.Add(new(ScottPlot.Colors.Green, 30));
+            poly.ColorPositions.Add(new(ScottPlot.Colors.Blue, 40));
+            poly.ColorPositions.Add(new(ScottPlot.Colors.Violet, 50));
 
         }
 
@@ -65,66 +94,7 @@ namespace ElectricalProspectingProfiling.Windows
             tbResistance.Text = CurrentMeasurement.Сопротивление.ToString();
         }
 
-        private void tbAmperaget_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            if (!IsNumber(e.Text))
-            {
-                e.Handled = true;
-                return;
-            }
-            
-            if (tbVoltage.Text != string.Empty)
-            {
-                tbResistance.Text = (double.Parse(tbVoltage.Text) / double.Parse(e.Text)).ToString();
-            }
-        }
-
-        private void tbVoltage_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            if (!IsNumber(e.Text))
-            {
-                e.Handled = true;
-                return;
-            }
-            
-            if (tbAmperaget.Text != string.Empty)
-            {
-                tbResistance.Text = (double.Parse(e.Text) / double.Parse(tbAmperaget.Text)).ToString("F2");
-            }
-        }
-
-        private bool IsNumber(string num) => int.TryParse(num, out _);
-
-        private void tbAmperaget_TextInput(object sender, TextCompositionEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-
-            if (tb.Text == "0")
-            {
-                tb.Text = "1";
-                MessageBox.Show("Деление на ноль невозможно!");
-                e.Handled = true; 
-                return;
-            }
-
-            if (string.IsNullOrEmpty(tb.Text))
-            {
-                tb.Text = "1";
-                e.Handled = true;
-            }
-
-        }
-
-        private void tbVoltage_TextInput(object sender, TextCompositionEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            if (tb.Text.Count() == 0)
-            {
-                tb.Text = "1";
-            }
-        }
-
-        private void btSave_Click(object sender, RoutedEventArgs e)
+        private async void btSave_Click(object sender, RoutedEventArgs e)
         {
             var selectedPicket = cbPickets.SelectedItem;
             if(selectedPicket is not Picket)
@@ -144,7 +114,13 @@ namespace ElectricalProspectingProfiling.Windows
 
             int amper = int.Parse(tbAmperaget.Text);
             int voltage = int.Parse(tbVoltage.Text);
-            double res = double.Parse(tbResistance.Text);
+            double res;
+            if(!double.TryParse(tbResistance.Text, out res))
+            {
+                MessageBox.Show("Некорректное значение, скорее всего вы поделили на ноль и поле с сопротивление пустое.");
+                return;
+            }
+          
             if(dpStartMeasurement.SelectedDate == null)
             {
                 MessageBox.Show("Введите дату!");
@@ -165,8 +141,38 @@ namespace ElectricalProspectingProfiling.Windows
 
             MessageBox.Show("Успешно!");
 
-            this.DialogResult = true;
-            this.Close();
+            var measurements = context.Measurement.Where(m => m.ГеологическиеДанныеID == GeologicalData.ID).ToList();
+            await PlotMeasurement(measurements);
+        }
+
+        private void tbVoltage_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (double.TryParse(tbVoltage.Text, out double voltage) &&
+               double.TryParse(tbAmperaget.Text, out double amperage) &&
+               amperage != 0)
+            {
+                double resistance = voltage / amperage;
+                tbResistance.Text = resistance.ToString("F2");
+            }
+            else
+            {
+                tbResistance.Text = "";
+            }
+        }
+
+        private void tbAmperaget_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (double.TryParse(tbAmperaget.Text, out double amperage) &&
+                   double.TryParse(tbVoltage.Text, out double voltage) &&
+                   amperage != 0)
+            {
+                double resistance = voltage / amperage;
+                tbResistance.Text = resistance.ToString("F2");
+            }
+            else
+            {
+                tbResistance.Text = "";
+            }
         }
     }
 }

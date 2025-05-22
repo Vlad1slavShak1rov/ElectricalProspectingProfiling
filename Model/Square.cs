@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Markup;
@@ -18,7 +19,7 @@ namespace ElectricalProspectingProfiling.Model
         public string Название { get; set; }
 
         [Required]
-        public decimal Высота { get; set; }
+        public double Высота { get; set; }
 
 
         public virtual List<CoordinatsSquare> CoordinatsSquares { get; set; }

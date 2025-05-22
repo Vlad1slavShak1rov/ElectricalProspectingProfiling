@@ -41,7 +41,7 @@ namespace ElectricalProspectingProfiling.Database.DAL
             }
         }
        
-        public async void Update(Square entity)
+        public async Task Update(Square entity)
         {
             try
             {

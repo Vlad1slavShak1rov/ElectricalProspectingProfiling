@@ -96,7 +96,13 @@ namespace ElectricalProspectingProfiling.Windows
 
             using var context = new MyDBContext();
 
-            Contract contract = new()
+            var contract = context.Contracts.FirstOrDefault(c => c.ПлощадьID == (square as Square).ID || c.ГеологическиеДанныеID == (geolocicalData as GeologicalData).ID);
+            if(contract != null)
+            {
+                MessageBox.Show("На данную площадь и/или исследование уже создан контракт!");
+                return;
+            }
+            contract = new()
             {
                 КлиентID = selectedCustomer.ID,
                 ГеологическиеДанныеID = geolocicalData is GeologicalData geologicalData ? geologicalData.ID : null,

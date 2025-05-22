@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ElectricalProspectingProfiling.Model"
+        xmlns:scott="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
         mc:Ignorable="d"
         Title="SapiensApp" Height="700" Width="800" WindowStartupLocation="CenterScreen">
     <DockPanel>
@@ -24,12 +25,13 @@
                 <StackPanel>
                     <Button Name="addGeodesistButton" Content="Добавить геодезиста" Width="200" Click="addGeodesistButton_Click"/>
                     <DataGrid Name="dgSurveyors" AutoGenerateColumns="True" Height="400"/>
+                    <Button x:Name="btCreateSintData" Content="Создать синтетические данные" Margin="0 10" FontSize="18" HorizontalAlignment="Left" Width="300" Click="btCreateSintData_Click"/>
                 </StackPanel>
             </TabItem>
 
             <TabItem Header="Пикеты">
                 <StackPanel>
-                    <DataGrid Name="dgPickets" AutoGenerateColumns="False" Height="400">
+                    <DataGrid Name="dgPickets" AutoGenerateColumns="False" Height="400" IsReadOnly="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
                             <DataGridTextColumn Header="Координаты" Binding="{Binding Координаты}"/>
@@ -42,38 +44,53 @@
 
             <TabItem Header="Профили">
                 <StackPanel>
-                    <DataGrid Name="dgProfiles" Height="400" AutoGenerateColumns="False">
+                    <DataGrid Name="dgProfiles" Height="400" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
                             <DataGridTextColumn Header="Метод профилирования" Binding="{Binding МетодПрофилирования}"/>
                         </DataGrid.Columns>
                     </DataGrid>
+
+                    <scott:WpfPlot x:Name="pltProfile" Width="250" Height="200" HorizontalAlignment="Left"/>
                 </StackPanel>
+                
             </TabItem>
 
             <TabItem Header="Площади">
                 <StackPanel>
                     <Button Name="addSquareButton" Content="Добавить площадь" Width="200" Click="addSquareButton_Click" />
-                    <DataGrid Name="dgAreas" Height="400" AutoGenerateColumns="False" SelectionChanged="dgAreas_SelectionChanged">
+                    <DataGrid Name="dgAreas" Height="400" AutoGenerateColumns="False" SelectionChanged="dgAreas_SelectionChanged" IsReadOnly="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="50"/>
                             <DataGridTextColumn Header="Название" Binding="{Binding Название}" Width="200"/>
                             <DataGridTextColumn Header="Высота" Binding="{Binding Высота}" Width="100"/>
                         </DataGrid.Columns>
                     </DataGrid>
+
+                    <scott:WpfPlot x:Name="squarePlot"  Height = "210" Width="250" HorizontalAlignment="Left"/>
                 </StackPanel>
             </TabItem>
 
             <TabItem Header="Заказчики">
                 <StackPanel>
                     <Button Name="btAddCustomer" Content="Добавить заказчика" Width="200" Click="AddCustomer_Click"/>
-                    <DataGrid Name="dgCustomers" AutoGenerateColumns="True" Height="400" SelectionChanged="dgCustomers_SelectionChanged"/>
+                    <DataGrid Name="dgCustomers" AutoGenerateColumns="True" Height="400" SelectionChanged="dgCustomers_SelectionChanged" IsReadOnly="True"/>
                 </StackPanel>
             </TabItem>
 
             <TabItem Header="Договоры">
                 <StackPanel>
-                    <Button x:Name ="btDrawUpContract" Content="Оформить договор" Width="200" Click="btDrawUpContract_Click" />
+                    <Grid>
+                        <StackPanel>
+                            <Label Content="Сортировка"/>
+                            <ComboBox x:Name="cbSort" Width="150" HorizontalAlignment="Left" SelectedIndex="0" SelectionChanged="cbSort_SelectionChanged">
+                                <ComboBoxItem Content="По дате (А-Я)"/>
+                                <ComboBoxItem Content="По дате (Я-А)"/>
+                            </ComboBox>
+                        </StackPanel>
+                        <Button x:Name ="btDrawUpContract" Content="Оформить договор" Width="200" Click="btDrawUpContract_Click" VerticalAlignment="Center"/>
+                    </Grid>
+                    
                     <DataGrid Name="dgContracts" Height="400" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Номер договора" Binding="{Binding ID}" Width="*"/>
@@ -89,8 +106,19 @@
 
             <TabItem Header="Геологические данные">
                 <StackPanel>
-                    <Button x:Name="btAddData" Content="Создать исследование" Width="200" Click="btAddData_Click" />
-                    <DataGrid Name="dgGeologicalData" AutoGenerateColumns="True" Height="300" SelectedCellsChanged="dgGeologicalData_SelectedCellsChanged"/>
+                    <Grid>
+                        <Button x:Name="btAddData" Content="Создать исследование" Width="200" Click="btAddData_Click" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <DataGrid Name="dgGeologicalData" Height="300" SelectedCellsChanged="dgGeologicalData_SelectedCellsChanged" IsReadOnly="True" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Название" Binding="{Binding Info}" Width="*"/>
+                            <DataGridTextColumn Header="Геодезист" Binding="{Binding Geodesist.Имя}" Width="*"/>
+                            <DataGridTextColumn Header="Тип Породы" Binding="{Binding ТипПороды}" Width="*"/>
+                            <DataGridTextColumn Header="Описание структуры" Binding="{Binding ОписаниеСтруктуры}" Width="*"/>
+                            <DataGridTextColumn Header="Загрязнение" Binding="{Binding Загрязнение}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                     <Image Name="imgGraph" Height="300" Width="500" Stretch="Uniform"/>
                 </StackPanel>
             </TabItem>

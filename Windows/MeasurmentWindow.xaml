@@ -4,10 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ElectricalProspectingProfiling.Windows"
+        xmlns:scott="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
         mc:Ignorable="d"
-        Title="MeasurmentWindow" Height="550" Width="400" WindowStartupLocation="CenterScreen">
+        Title="MeasurmentWindow" Height="600" Width="800" WindowStartupLocation="CenterScreen">
     <Grid>
-        <StackPanel>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"/> 
+            <ColumnDefinition/> 
+        </Grid.ColumnDefinitions>
+        
+        <StackPanel Margin="20 0">
+            <Label Content="Исследовательские данные" FontSize="22" HorizontalAlignment="Center" FontWeight="Black"/>
             <StackPanel>
                 <Label Content="Номера пикетов" FontSize="18"/>
                 <ComboBox x:Name="cbPickets" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220"  FontSize="18" SelectionChanged="cbPickets_SelectionChanged" SelectedIndex="0"/>
@@ -31,18 +39,18 @@
             </StackPanel>
             
             <StackPanel HorizontalAlignment="Left">
-                <Label Content="Километр пикета" FontSize="18"/>
+                <Label Content="Дистаниця между электродами" FontSize="18"/>
                 <TextBox x:Name="tbDistance" FontSize="18" Width="150" HorizontalAlignment="Left"/>
             </StackPanel>
 
             <StackPanel HorizontalAlignment="Left">
                 <Label Content="Подаваемый ток" FontSize="18"/>
-                <TextBox x:Name="tbAmperaget" FontSize="18" Width="150" HorizontalAlignment="Left" PreviewTextInput="tbAmperaget_PreviewTextInput"/>
+                <TextBox x:Name="tbAmperaget" FontSize="18" Width="150" HorizontalAlignment="Left" TextChanged="tbAmperaget_TextChanged"/>
             </StackPanel>
 
             <StackPanel HorizontalAlignment="Left">
                 <Label Content="Подаваемое напряжение" FontSize="18"/>
-                <TextBox x:Name="tbVoltage" FontSize="18" Width="150" HorizontalAlignment="Left" PreviewTextInput="tbVoltage_PreviewTextInput"/>
+                <TextBox x:Name="tbVoltage" FontSize="18" Width="150" HorizontalAlignment="Left" TextChanged="tbVoltage_TextChanged"/>
             </StackPanel>
 
             <StackPanel HorizontalAlignment="Left">
@@ -52,5 +60,10 @@
                 <Button x:Name="btSave" Content="Сохранить" FontSize="18" Margin="0 20" Click="btSave_Click"/>
             </StackPanel>
         </StackPanel>
+
+        <Grid Grid.Column="1">
+            <Label Content="График исследования" FontSize="22" HorizontalAlignment="Center" FontWeight="Black"/>
+            <scott:WpfPlot x:Name="pltMeasurement" HorizontalAlignment="Center" VerticalAlignment="Center" Height="200" Width="350"/>
+        </Grid>
     </Grid>
 </Window>

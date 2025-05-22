@@ -27,41 +27,20 @@ namespace ElectricalProspectingProfiling.Database.DAL
         }
         public async void Add(Contract entity)
         {
-            try
-            {
-                context.Contracts.Add(entity);
-               await context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
+            context.Contracts.Add(entity);
+            await context.SaveChangesAsync();
         }
 
         public async void Update(Contract entity)
         {
-            try
-            {
-                context.Contracts.Update(entity);
-                await context.SaveChangesAsync();
-            }catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            context.Contracts.Update(entity);
+            await context.SaveChangesAsync();
         }
 
         public async void Remove(Contract entity)
         {
-            try
-            {
-                context.Contracts.Remove(entity);
-                await context.SaveChangesAsync();
-
-            }catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            context.Contracts.Remove(entity);
+            await context.SaveChangesAsync();
         }        
     }
 }

@@ -14,10 +14,10 @@ namespace ElectricalProspectingProfiling.Model
         public int ID { get; set; }
 
         [Required]
-        public decimal XКоордината { get; set; }
+        public double XКоордината { get; set; }
 
         [Required]
-        public decimal YКоордината { get; set; }
+        public double YКоордината { get; set; }
 
         [ForeignKey("Square")]
         public int SquareID { get; set; }

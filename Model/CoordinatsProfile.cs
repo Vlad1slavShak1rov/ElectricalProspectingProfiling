@@ -12,9 +12,9 @@ namespace ElectricalProspectingProfiling.Model
         [Key]
         public int ID { get; set; }
         [Required]
-        public decimal XКоордината { get; set; }
+        public double XКоордината { get; set; }
         [Required]
-        public decimal YКоордината { get; set; }
+        public double YКоордината { get; set; }
 
         public virtual Profile Profile { get; set; }
     }

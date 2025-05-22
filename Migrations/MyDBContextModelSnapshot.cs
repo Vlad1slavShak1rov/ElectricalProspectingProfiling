@@ -68,11 +68,11 @@ namespace ElectricalProspectingProfiling.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<decimal>("XКоордината")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("XКоордината")
+                        .HasColumnType("float");
 
-                    b.Property<decimal>("YКоордината")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("YКоордината")
+                        .HasColumnType("float");
 
                     b.HasKey("ID");
 
@@ -90,11 +90,11 @@ namespace ElectricalProspectingProfiling.Migrations
                     b.Property<int>("SquareID")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("XКоордината")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("XКоордината")
+                        .HasColumnType("float");
 
-                    b.Property<decimal>("YКоордината")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("YКоордината")
+                        .HasColumnType("float");
 
                     b.HasKey("ID");
 
@@ -183,8 +183,8 @@ namespace ElectricalProspectingProfiling.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<decimal>("Вольтаж")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Вольтаж")
+                        .HasColumnType("float");
 
                     b.Property<int>("ГеологическиеДанныеID")
                         .HasColumnType("int");
@@ -192,8 +192,8 @@ namespace ElectricalProspectingProfiling.Migrations
                     b.Property<DateTime>("Дата")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("ДистанцияМеждуЭлектродами")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("ДистанцияМеждуЭлектродами")
+                        .HasColumnType("float");
 
                     b.Property<int>("ПикетыID")
                         .HasColumnType("int");
@@ -205,8 +205,8 @@ namespace ElectricalProspectingProfiling.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Ток")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Ток")
+                        .HasColumnType("float");
 
                     b.HasKey("ID");
 
@@ -226,8 +226,8 @@ namespace ElectricalProspectingProfiling.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<decimal>("Дистанция")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Дистанция")
+                        .HasColumnType("float");
 
                     b.Property<string>("Координаты")
                         .IsRequired()
@@ -282,8 +282,8 @@ namespace ElectricalProspectingProfiling.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<decimal>("Высота")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Высота")
+                        .HasColumnType("float");
 
                     b.Property<string>("Название")
                         .IsRequired()

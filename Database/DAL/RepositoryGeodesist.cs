@@ -25,7 +25,7 @@ namespace ElectricalProspectingProfiling.Database.DAL
         {
             return context.Geodesist.Find(id);
         }
-        public async void Add(Geodesist entity)
+        public async Task Add(Geodesist entity)
         {
             try
             {

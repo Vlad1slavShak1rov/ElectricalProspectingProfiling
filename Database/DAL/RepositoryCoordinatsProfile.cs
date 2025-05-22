@@ -26,29 +26,14 @@ namespace ElectricalProspectingProfiling.Database.DAL
         }
         public async Task Add(CoordinatsProfile entity)
         {
-            try
-            {
-                context.CoordinatsProfile.Add(entity);
-                await context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
+            context.CoordinatsProfile.Add(entity);
+            await context.SaveChangesAsync();
         }
 
         public async void Update(CoordinatsProfile entity)
         {
-            try
-            {
-                context.CoordinatsProfile.Update(entity);
-                await context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            context.CoordinatsProfile.Update(entity);
+            await context.SaveChangesAsync();
         }
 
         public async void Remove(CoordinatsProfile entity)

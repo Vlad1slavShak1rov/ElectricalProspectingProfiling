@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ElectricalProspectingProfiling.Migrations
 {
     /// <inheritdoc />
-    public partial class InitData : Migration
+    public partial class InitalData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,8 +17,8 @@ namespace ElectricalProspectingProfiling.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    XКоордината = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    YКоордината = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    XКоордината = table.Column<double>(type: "float", nullable: false),
+                    YКоордината = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -60,7 +60,7 @@ namespace ElectricalProspectingProfiling.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Название = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Высота = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Высота = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -95,8 +95,8 @@ namespace ElectricalProspectingProfiling.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    XКоордината = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    YКоордината = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    XКоордината = table.Column<double>(type: "float", nullable: false),
+                    YКоордината = table.Column<double>(type: "float", nullable: false),
                     SquareID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -180,7 +180,7 @@ namespace ElectricalProspectingProfiling.Migrations
                     ПрофильID = table.Column<int>(type: "int", nullable: false),
                     Координаты = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Номер = table.Column<int>(type: "int", nullable: false),
-                    Дистанция = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Дистанция = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -203,9 +203,9 @@ namespace ElectricalProspectingProfiling.Migrations
                     ПикетыID = table.Column<int>(type: "int", nullable: false),
                     Дата = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ТипПрофилирования = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ДистанцияМеждуЭлектродами = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Ток = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Вольтаж = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ДистанцияМеждуЭлектродами = table.Column<double>(type: "float", nullable: false),
+                    Ток = table.Column<double>(type: "float", nullable: false),
+                    Вольтаж = table.Column<double>(type: "float", nullable: false),
                     Сопротивление = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>

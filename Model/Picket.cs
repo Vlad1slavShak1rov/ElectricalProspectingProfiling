@@ -21,7 +21,7 @@ namespace ElectricalProspectingProfiling.Model
 
         public int Номер { get; set; }
 
-        public decimal Дистанция { get; set; }
+        public double Дистанция { get; set; }
 
         public string ShowInfo { get => $"Номер пикета: {Номер}"; }
         public virtual Profile Profile { get; set; }

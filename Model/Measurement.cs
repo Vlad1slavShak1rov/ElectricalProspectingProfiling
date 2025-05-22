@@ -21,11 +21,11 @@ namespace ElectricalProspectingProfiling.Model
         [Required]
         public string ТипПрофилирования { get; set; }
 
-        public decimal ДистанцияМеждуЭлектродами { get; set; }
+        public double ДистанцияМеждуЭлектродами { get; set; }
 
-        public decimal Ток { get; set; }
+        public double Ток { get; set; }
 
-        public decimal Вольтаж { get; set; }
+        public double Вольтаж { get; set; }
 
         public double Сопротивление { get; set; }
 
